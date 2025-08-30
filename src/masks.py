@@ -1,5 +1,5 @@
 def get_mask_card_number(card_number: int) -> str:
-    """принимает на вход номер карты и возвращает ее маску"""
+    """принимает на вход номер карты и возвращает его маску"""
     mask = ""
     card_number_str = str(card_number)
 
