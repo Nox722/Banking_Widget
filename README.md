@@ -4,28 +4,33 @@
 ## I Реализованные функции
 ### - `get_mask_card_number(card_number: int) -> str`  
 Принимает на вход номер карты и возвращает его маску.  
+
 **Пример:**  
 `get_mask_card_number(1234567890123456) → "1234 56** **** 3456"`
 
 ### - `get_mask_account(account_number: int) -> str`
 Принимает на вход номер счета и возвращает его маску.  
+
 **Пример:**  
 `get_mask_account(40817810099910004312) → "**4312"`
 
 ### - `mask_account_card(card_or_account_info: str | int) -> str`
 Принимает на вход тип и номер карты или счета и возвращает его маску.  
 Определяет, что маскировать — карту или счет — по длине номера.  
+
 **Пример:**  
 `mask_account_card("Visa Platinum 7000792289606361") → "VisaPlatinum 7000 79** **** 6361"`   
 `mask_account_card("Счет 73654108430135874305") → "Счет **4305"`
 
 ### - `get_date(date: str) -> str`
 Принимает на вход дату в формате YYYY-MM-DDThh:mm:ss.hhmmss и возвращает строку с датой в формате DD.MM.YYYY.  
+
 **Пример:**  
 `get_date("2024-03-11T02:26:18.671407") → "11.03.2024"`
 
 ### - `filter_by_state(operations: list[dict], desired_state: str = "EXECUTED") -> list[dict]`
 Фильтрует список транзакций по заданному состоянию. Состояние по умолчанию — "EXECUTED".  
+
 **Пример:**  
 ```
 transactions = [
@@ -37,31 +42,119 @@ transactions = [
 
 executed_transactions = filter_by_state(transactions)
 print(executed_transactions)
-# Вывод:
-# [{"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#  {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"}]
+
+>>> [
+      {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+      {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"}
+    ]
 ```
+
 
 ### - `sort_by_date(operations: list[dict], order_of_sorting: bool = True) -> list[dict]`
 Сортирует список транзакций по дате, по умолчанию — в порядке убывания (от новых к старым).  
+
+**Пример:**  
+```
+sorted_transactions = sort_by_date(transactions)
+# в качестве аргумента функции использован список из предыдущего примера
+
+print(sorted_transactions)
+
+>>> [
+      {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+      {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+      {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+      {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"}
+    ]
+```
+
+### - `filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]`
+Принимает список транзакций и валюту и возвращает итератор транзакций с указанной валютой (по умолчанию USD).  
+
 **Пример:**  
 ```
 transactions = [
-    {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-    {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-    {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-    {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"}
-]
+        {
+            "id": 939719570,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод организации",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+        },
+        {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+            "description": "Перевод со счета на счет",
+            "from": "Счет 44812258784861134719",
+            "to": "Счет 74489636417521191160",
+        },
+        {
+            "id": 895315941,
+            "state": "EXECUTED",
+            "date": "2018-08-19T04:27:37.904916",
+            "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод с карты на карту",
+            "from": "Visa Classic 6831982476737658",
+            "to": "Visa Platinum 8990922113665229",
+        },
+    ]
 
-sorted_transactions = sort_by_date(transactions)
-print(sorted_transactions)
-# Вывод:
-# [
-#   {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#   {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-#   {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#   {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"}
-# ]
+usd_transactions = filter_by_currency(transactions, "USD")
+for _ in range(2):
+    print(next(usd_transactions))
+
+>>> {
+            "id": 939719570,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод организации",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+    }
+    {
+            "id": 895315941,
+            "state": "EXECUTED",
+            "date": "2018-08-19T04:27:37.904916",
+            "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод с карты на карту",
+            "from": "Visa Classic 6831982476737658",
+            "to": "Visa Platinum 8990922113665229",
+    }
+```
+
+### - `transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[dict[str, Any]]`
+Принимает на вход список транзакций и возвращает итератор описаний транзакций.  
+
+**Пример:**  
+```
+descriptions = transaction_descriptions(transactions)  
+# в качестве аргумента функции использован список из предыдущего примера
+
+for _ in range(3):
+    print(next(descriptions))
+    
+>>> Перевод организации
+    Перевод со счета на счет
+    Перевод с карты на карту
+```
+### - `card_number_generator(start: int, stop: int) -> Iterator[str]`
+Принимает 2 числа - start и stop и возвращает итератор номеров карт в этом диапазоне.  
+
+**Пример:**  
+```
+for card_number in card_number_generator(1, 5):
+    print(card_number)
+
+>>> 0000 0000 0000 0001
+    0000 0000 0000 0002
+    0000 0000 0000 0003
+    0000 0000 0000 0004
+    0000 0000 0000 0005
 ```
 
 ## II Установка и использование
@@ -98,7 +191,10 @@ from src import (
     mask_account_card,
     get_date,
     filter_by_state,
-    sort_by_date
+    sort_by_date,
+    filter_by_currency,
+    transaction_descriptions,
+    card_number_generator,
 )
 ```
 
