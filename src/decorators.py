@@ -4,6 +4,14 @@ from typing import Any, Callable, Optional
 
 
 def log(filename: Optional[str] = None) -> Callable:
+    """
+    Декоратор для логирования вызовов функции.
+
+    Записывает в файл (или в стандартный вывод, если filename=None) информацию о начале
+    и конце выполнения функции, а также результат. В случае исключения логирует его тип
+    и параметры вызова.
+    """
+
     def wrapper(func: Callable) -> Callable:
         @functools.wraps(func)
         def inner(*args: Any, **kwargs: Any) -> Any:

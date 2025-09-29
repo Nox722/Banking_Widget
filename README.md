@@ -142,6 +142,7 @@ for _ in range(3):
     Перевод со счета на счет
     Перевод с карты на карту
 ```
+
 ### - `card_number_generator(start: int, stop: int) -> Iterator[str]`
 Принимает 2 числа - start и stop и возвращает итератор номеров карт в этом диапазоне.  
 
@@ -155,6 +156,24 @@ for card_number in card_number_generator(1, 5):
     0000 0000 0000 0003
     0000 0000 0000 0004
     0000 0000 0000 0005
+```
+### - `log(filename: Optional[str] = None) -> Callable`
+Декоратор для логирования вызовов функции.   
+Записывает в файл (или в стандартный вывод, если filename=None) информацию о начале и конце выполнения функции, а также результат. В случае исключения логирует его тип и параметры вызова.  
+
+**Пример:**  
+```
+@log(filename=None)  # Логирование в консоль
+def greet(name: str) -> str:
+    return f"Привет, {name}!"
+
+@log(filename="app.log")  # Логирование в файл app.log
+def divide(a: float, b: float) -> float:
+    return a / b
+
+print(greet("Мир"))
+
+divide(10, 0)
 ```
 
 ## II Установка и использование
@@ -185,17 +204,7 @@ pip install .
 ### Использование
 Импортируйте необходимые функции из пакета src в вашем Python-скрипте:
 ```
-from src import (
-    get_mask_card_number,
-    get_mask_account,
-    mask_account_card,
-    get_date,
-    filter_by_state,
-    sort_by_date,
-    filter_by_currency,
-    transaction_descriptions,
-    card_number_generator,
-)
+from src import <название функции>
 ```
 
 ## III Тестирование
