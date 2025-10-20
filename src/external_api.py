@@ -2,7 +2,7 @@ import os
 
 import requests
 from dotenv import load_dotenv
-from src.utils import get_data_from_json_file
+from src import get_data_from_json_file
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
