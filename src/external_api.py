@@ -1,7 +1,11 @@
 import os
 
 import requests
+from dotenv import load_dotenv
 from src.utils import get_data_from_json_file
+
+load_dotenv()
+api_key = os.getenv("API_KEY")
 
 def get_transaction_amount_in_rubles(transaction: dict) -> float:
 
@@ -24,7 +28,7 @@ def get_transaction_amount_in_rubles(transaction: dict) -> float:
         return amount
     elif from_ in ("USD", "EUR"):
         url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from_}&amount={amount}"
-        headers = {"apikey": "2OkLJgmGvENWLtkRNIyBUHehi7yaqzTt"}
+        headers = {"apikey": api_key}
 
         response = requests.get(url, headers=headers)
 
@@ -43,6 +47,6 @@ if __name__ == "__main__":
     file_path = os.path.join(root_dir, 'data', 'operations.json')
 
     data = get_data_from_json_file(file_path)
-    some_dict = data[100]
+    some_dict = data[0]
     result_amount = get_transaction_amount_in_rubles(some_dict)
     print(result_amount)
