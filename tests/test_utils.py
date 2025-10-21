@@ -1,38 +1,38 @@
-import os
-
-import pytest
+import json
+from unittest.mock import patch, Mock
 
 from src import get_data_from_json_file
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
 
-file_path = os.path.join(current_dir, "data", "test_operations.json")
-empty_file_path = os.path.join(current_dir, "data", "test_empty.json")
-wrong_file_path = os.path.join(current_dir, "src", "operations.json")
-wrong_json_path = os.path.join(current_dir, "data", "test_wrong.json")
+@patch("builtins.open")
+def test_get_data_success(mock_open: Mock) -> None:
+    """тест успешного чтения и парсинга данных из JSON файла"""
+    mock_data = [
+        {
+            "id": 1,
+            "amount": "1000",
+            "currency": "USD",
+        }
+    ]
+    json_str = json.dumps(mock_data)
+    mock_open.return_value.__enter__.return_value.read.return_value = json_str
+
+    result = get_data_from_json_file("fake_path.json")
+    assert result == mock_data
 
 
-@pytest.mark.parametrize(
-    "path, expected",
-    [
-        (
-            file_path,
-            [
-                {
-                    "id": 441945886,
-                    "state": "EXECUTED",
-                    "date": "2019-08-26T10:50:58.294041",
-                    "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
-                    "description": "Перевод организации",
-                    "from": "Maestro 1596837868705199",
-                    "to": "Счет 64686473678894779589",
-                }
-            ],
-        ),
-        (empty_file_path, []),
-        (wrong_file_path, []),
-        (wrong_json_path, []),
-    ],
-)
-def test_get_data_from_json_file(path: str, expected: list) -> None:
-    assert get_data_from_json_file(path) == expected
+@patch("builtins.open", side_effect=FileNotFoundError)
+def test_get_data_file_not_found(mock_open: Mock) -> None:
+    """проверка обработки отсутствия файла (исключение FileNotFoundError)"""
+    result = get_data_from_json_file("nonexistent.json")
+    assert result == []
+
+
+@patch("builtins.open")
+@patch("json.load")
+def test_get_data_json_decode_error(mock_json_load: Mock, mock_open: Mock) -> None:
+    """проверка обработки ошибки декодирования JSON"""
+    mock_json_load.side_effect = json.decoder.JSONDecodeError("Error", "line 1", 0)
+
+    result = get_data_from_json_file("bad_json.json")
+    assert result == []
