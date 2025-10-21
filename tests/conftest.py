@@ -200,3 +200,42 @@ def transactions_list_no_currency() -> list[dict[str, Any]]:
             "to": "Visa Platinum 8990922113665229",
         },
     ]
+
+
+@pytest.fixture
+def transaction_usd() -> dict[str, Any]:
+    return {
+        "id": 939719570,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572",
+        "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+        "description": "Перевод организации",
+        "from": "Счет 75106830613657916952",
+        "to": "Счет 11776614605963066702",
+    }
+
+
+@pytest.fixture
+def transaction_rub() -> dict[str, Any]:
+    return {
+        "id": 939719570,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572",
+        "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Счет 75106830613657916952",
+        "to": "Счет 11776614605963066702",
+    }
+
+
+@pytest.fixture
+def transaction_jpy() -> dict[str, Any]:
+    return {
+        "id": 939719570,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572",
+        "operationAmount": {"amount": "36852.90", "currency": {"name": "JPY", "code": "JPY"}},
+        "description": "Перевод организации",
+        "from": "Счет 75106830613657916952",
+        "to": "Счет 11776614605963066702",
+    }

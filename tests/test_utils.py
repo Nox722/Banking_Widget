@@ -1,7 +1,8 @@
 import os
-import pytest
-from src import get_data_from_json_file
 
+import pytest
+
+from src import get_data_from_json_file
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,5 +34,5 @@ wrong_json_path = os.path.join(current_dir, "data", "test_wrong.json")
         (wrong_json_path, []),
     ],
 )
-def test_get_data_from_json_file(path, expected):
+def test_get_data_from_json_file(path: str, expected: list) -> None:
     assert get_data_from_json_file(path) == expected
