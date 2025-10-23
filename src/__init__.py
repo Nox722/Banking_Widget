@@ -3,6 +3,8 @@ from .masks import get_mask_account, get_mask_card_number
 from .processing import filter_by_state, sort_by_date
 from .widget import get_date, mask_account_card
 from .decorators import log
+from .utils import get_data_from_json_file
+from .external_api import get_transaction_amount_in_rubles
 
 __all__ = [
     "get_mask_card_number",
@@ -14,5 +16,7 @@ __all__ = [
     "filter_by_currency",
     "transaction_descriptions",
     "card_number_generator",
-    "log"
+    "log",
+    "get_data_from_json_file",
+    "get_transaction_amount_in_rubles",
 ]
