@@ -17,13 +17,13 @@ logger = logging.getLogger("utils")
 def get_data_from_json_file(path: str) -> list[dict]:
     """принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях"""
     try:
-        logger.info("Открытие файла")
+        logger.info("Открытие файла.")
         with open(path, encoding="utf-8") as f:
-            logger.info("Чтение JSON-файла")
+            logger.info("Чтение JSON-файла.")
             data: list[dict] = json.load(f)
             return data
     except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
-        logger.error(f"Произошла ошибка {ex}")
+        logger.error(f"Произошла ошибка {ex}.")
         return []
 
 
