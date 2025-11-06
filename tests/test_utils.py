@@ -1,5 +1,5 @@
 import json
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from src import get_data_from_json_file
 
