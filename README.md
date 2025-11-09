@@ -203,7 +203,28 @@ transaction = {
     
 get_transaction_amount_in_rubles(transaction) -> 799286.34  # сумма в рублях по текущему курсу
 ```
+### - `get_data_from_csv_file(path: str) -> list[dict]`
+Принимает на вход путь до csv-файла и возвращает список словарей с данными о финансовых транзакциях.  
 
+**Пример:**
+```
+# Путь к вашему csv-файлу с данными о транзакциях
+file_path = "transactions.csv"
+
+# Получение данных из файла
+transactions = get_data_from_csv_file(file_path)
+```
+### - `get_data_from_excel_file(path: str) -> list[dict]`
+Принимает на вход путь до excel-файла и возвращает список словарей с данными о финансовых транзакциях.  
+
+**Пример:**
+```
+# Путь к вашему excel-файлу с данными о транзакциях
+file_path = "transactions.xlsx"
+
+# Получение данных из файла
+transactions = get_data_from_excel_file(file_path)
+```
 
 ## II Установка и использование
 ### Клонирование репозитория
