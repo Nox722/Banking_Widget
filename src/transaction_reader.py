@@ -35,15 +35,3 @@ def get_data_from_excel_file(path: str) -> list[dict]:
         print(f"Ошибка при чтении файла: {e}")
         return []
     return excel_data_list
-
-
-if __name__ == "__main__":
-    file_path_csv = os.path.join(root_path, "data", "transactions.csv")
-    csv_data = get_data_from_csv_file(file_path_csv)
-    print(csv_data[4:5])
-
-    file_path_xlsx = os.path.join(root_path, "data", "transactions_excel.xlsx")
-    excel_data = get_data_from_excel_file(file_path_xlsx)
-    print(excel_data[4:5])
-
-    print(csv_data == excel_data)

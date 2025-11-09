@@ -61,8 +61,3 @@ def get_mask_account(account_number: int) -> str:
     else:
         account_logger.error("Ошибка. Некорректный тип данных.")
         return "Ошибка, функция принимает только данные типа INT."
-
-
-if __name__ == "__main__":
-    get_mask_card_number(1234567843218765)
-    get_mask_account(12345678432187651234)

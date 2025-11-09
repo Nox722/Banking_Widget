@@ -25,9 +25,3 @@ def get_data_from_json_file(path: str) -> list[dict]:
     except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
         logger.error(f"Произошла ошибка {ex}.")
         return []
-
-
-if __name__ == "__main__":
-    file_path = os.path.join(root_path, "data", "operations.json")
-    data = get_data_from_json_file(file_path)
-    print(data)
