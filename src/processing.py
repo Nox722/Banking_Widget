@@ -7,7 +7,7 @@ def filter_by_state(operations: list[dict], desired_state: str = "EXECUTED") -> 
     принимает список словарей и опционально значение для ключа state и возвращает новый список словарей,
     содержащий только те словари, у которых ключ state соответствует указанному значению
     """
-    new_operations_list = [i for i in operations if i["state"] == desired_state]
+    new_operations_list = [i for i in operations if i.get("state") == desired_state]
 
     return new_operations_list
 

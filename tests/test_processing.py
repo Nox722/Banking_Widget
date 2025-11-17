@@ -28,6 +28,13 @@ def test_filter_unknown_state(list_of_dicts: list[dict[str, Any]]) -> None:
     assert filter_by_state(list_of_dicts, "UNKNOWN_STATE") == []
 
 
+def test_filter_no_key(
+    list_of_dicts_no_state: list[dict[str, Any]], list_of_dicts_state_executed: list[dict[str, Any]]
+) -> None:
+    # передаем список, в котором нет ключа state
+    assert filter_by_state(list_of_dicts_no_state) == list_of_dicts_state_executed
+
+
 def test_filter_empty_list() -> None:
     # передаем пустой список
     assert filter_by_state([]) == []
